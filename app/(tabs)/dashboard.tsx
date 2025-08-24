@@ -1,30 +1,161 @@
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { Link } from 'expo-router';
-import { StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import * as Progress from 'react-native-progress';
 
 export default function Index() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Home screen</Text>
-      <Link href="/group" style={styles.button}>
-        Go to About screen
-      </Link>
-    </View>
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.summaryContainer}>
+        <Text style={styles.title}>Your Emergency Fund</Text>
+        <Text style={styles.subtitle}>Current Balance</Text>
+
+        <Progress.Bar
+          progress={0.6}
+          width={null}
+          style={styles.progressBar}
+          color="#fff"
+          borderRadius={5}
+        />
+
+        <Text style={styles.goalText}>Goal: P100,000.00</Text>
+      </View>
+
+      <View style={styles.statsContainer}>
+        <View style={styles.statsRowContainer}>          
+          <View style={styles.statCard}>
+            <Ionicons name="add-sharp" size={30} />
+            <View style={{ marginLeft: 10 }}>
+              <Text style={{ fontSize: 15 }}>This Month</Text>
+              <Text style={{ fontWeight: 'bold', fontSize: 18}}>
+                + P5000.00
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.statCard}>
+            <Ionicons name="calendar-outline" size={30} />
+            <View style={{ marginLeft: 10 }}>
+              <Text style={{ fontSize: 15 }}>Months Active</Text>
+              <Text style={{ fontWeight: 'bold', fontSize: 18 }}>
+                3 / 12
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+
+      {/* Recent Transactions */}
+      <View style={styles.entriesContainer}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+          <Text style={{ fontWeight: 'bold', padding: 10, fontSize: 15 }}>Recent Entries</Text>
+          <Link style={{ fontSize: 13, color: '#3498db', padding: 10 }} href="/">View All</Link>
+        </View>
+        <View style={styles.entries}>
+          <View style={styles.entriesCard}>
+            <Ionicons name="wallet-outline" size={30}/>
+            <View style={{ marginLeft: 10 }}>
+              <Text style={{ color: '#01BD81', fontSize: 20, fontWeight: 'bold' }}>+ P5000.00</Text>
+              <Text style={{ fontSize: 13, color: '#7f8c8d' }}>Bonus from Work</Text>
+            </View>
+          </View>
+          <View style={styles.entriesCard}>
+            <Ionicons name="wallet-outline" size={30}/>
+            <View style={{ marginLeft: 10 }}>
+              <Text style={{ color: '#01BD81', fontSize: 20, fontWeight: 'bold' }}>+ P5000.00</Text>
+              <Text style={{ fontSize: 13, color: '#7f8c8d' }}>Bonus from Work</Text>
+            </View>
+          </View>
+          <View style={styles.entriesCard}>
+            <Ionicons name="wallet-outline" size={30}/>
+            <View style={{ marginLeft: 10 }}>
+              <Text style={{ color: '#01BD81', fontSize: 20, fontWeight: 'bold' }}>+ P5000.00</Text>
+              <Text style={{ fontSize: 13, color: '#7f8c8d' }}>Bonus from Work</Text>
+            </View>
+          </View>
+          <View style={styles.entriesCard}>
+            <Ionicons name="wallet-outline" size={30}/>
+            <View style={{ marginLeft: 10 }}>
+              <Text style={{ color: '#01BD81', fontSize: 20, fontWeight: 'bold' }}>+ P5000.00</Text>
+              <Text style={{ fontSize: 13, color: '#7f8c8d' }}>Bonus from Work</Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#25292e',
+    flexGrow: 1, 
+    backgroundColor: '#e4e7ebff',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
+    padding: 20,
   },
-  text: {
+  summaryContainer: {
+    backgroundColor: '#1b263b',
+    borderRadius: 12,
+    padding: 20,
+    width: '100%',
+    minHeight: 180,
+    marginTop: 10
+  },
+  title: {
     color: '#fff',
-  },
-  button: {
     fontSize: 20,
-    textDecorationLine: 'underline',
-    color: '#fff',
+    fontWeight: '600',
   },
+  subtitle: {
+    marginTop: 10,
+    fontSize: 15,
+    color: '#fff',
+    marginBottom: 5,
+  },
+  progressBar: {
+    alignSelf: 'stretch',
+    marginVertical: 5,
+  },
+  goalText: {
+    color: '#fff',
+    fontSize: 12,
+    marginTop: 5,
+    textAlign: 'right',
+  },
+  statsContainer: {
+    width: '100%',
+    marginTop: 10,
+  },
+  statsRowContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  statCard: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    backgroundColor: '#f4f6f9',
+    borderRadius: 15,
+    marginHorizontal: 5,
+  },
+  entriesContainer: {
+    marginTop: 10,
+    backgroundColor: '#f4f6f9',
+    width: '100%',
+    borderRadius: 10
+  },
+  entries: {
+    flex: 1,
+    margin: 10
+  },
+  entriesCard: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    backgroundColor: '#f8f9fa',
+    marginHorizontal: 5,
+  }
 });

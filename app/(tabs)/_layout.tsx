@@ -68,7 +68,7 @@ export default function TabLayout() {
           tabBarShowLabel: false,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
-              name={focused ? 'analytics-sharp' : 'analytics-outline'}
+              name={focused ? 'bar-chart-sharp' : 'bar-chart-outline'}
               color={color}
               size={26}
             />
