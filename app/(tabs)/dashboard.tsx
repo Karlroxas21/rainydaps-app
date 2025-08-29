@@ -1,4 +1,5 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Link } from 'expo-router';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import * as Progress from 'react-native-progress';
@@ -6,7 +7,12 @@ import * as Progress from 'react-native-progress';
 export default function Index() {
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.summaryContainer}>
+      <View style={styles.shadowWrapper}>
+      <LinearGradient
+      colors={['#1B263B', '#396FDC']}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+      style={styles.summaryContainer}>
         <Text style={styles.title}>Your Emergency Fund</Text>
         <Text style={styles.subtitle}>Current Balance</Text>
 
@@ -19,6 +25,7 @@ export default function Index() {
         />
 
         <Text style={styles.goalText}>Goal: P100,000.00</Text>
+      </LinearGradient>
       </View>
 
       <View style={styles.statsContainer}>
@@ -94,8 +101,17 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     padding: 20,
   },
+  shadowWrapper: {
+    borderRadius: 20,  // match your gradient container’s radius
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
+    elevation: 8, 
+    width: '100%',
+    minHeight: 180,
+  },
   summaryContainer: {
-    backgroundColor: '#1b263b',
     borderRadius: 12,
     padding: 20,
     width: '100%',
@@ -125,7 +141,7 @@ const styles = StyleSheet.create({
   },
   statsContainer: {
     width: '100%',
-    marginTop: 10,
+    marginTop: 25,
   },
   statsRowContainer: {
     flexDirection: 'row',
@@ -141,7 +157,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   entriesContainer: {
-    marginTop: 10,
+    marginTop: 15,
     backgroundColor: '#f4f6f9',
     width: '100%',
     borderRadius: 10

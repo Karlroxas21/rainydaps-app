@@ -21,6 +21,9 @@ export default function Login() {
           placeholderTextColor="#888"
           keyboardType="email-address"
         />
+
+        <Link href="/" style={{ marginBottom: 5, color: '#3498db', textAlign: 'right' }}>Forgot Password?</Link>
+
         <TextInput
           style={styles.input}
           placeholder="Password"
@@ -29,7 +32,7 @@ export default function Login() {
         />
 
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Login</Text>
+          <Text style={styles.buttonText}>Log In</Text>
         </TouchableOpacity>
 
         <Text style={styles.signupText}>
