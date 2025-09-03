@@ -1,3 +1,6 @@
+import GroupActivity from '@/components/group-activity';
+import GroupHistory from '@/components/group-history';
+import GroupStats from '@/components/group-stats';
 import InviteModal from '@/components/invitemodal';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import React, { useState } from 'react';
@@ -15,6 +18,9 @@ export default function AboutScreen() {
     { label: 'Add New Entry', value: 'addnewentry'}
   ]);
   const [isInviteVisible, setInviteVisible ] = useState<boolean>(false);
+  const [isStatsVisible, setStatsVisible] = useState<boolean>(false);
+  const [isHistoryVisible, setHistoryVisible] = useState<boolean>(false);
+  const [isActivityVisible, setActivityVisible] = useState<boolean>(false);
 
   const onInvite = () => {
     setInviteVisible(true);
@@ -22,6 +28,30 @@ export default function AboutScreen() {
 
   const inviteClose = () => {
     setInviteVisible(false);
+  }
+
+  const onStats = () => {
+    setStatsVisible(true);
+  }
+
+  const statsClose = () => {
+    setStatsVisible(false);
+  }
+
+  const onHistory = () => {
+    setHistoryVisible(true);
+  }
+
+  const historyClose = () => {
+    setHistoryVisible(false);
+  }
+
+  const onActivity = () => {
+    setActivityVisible(true);
+  }
+
+  const activityClose = () => {
+    setActivityVisible(false);
   }
 
   return (
@@ -128,7 +158,7 @@ export default function AboutScreen() {
               styles.statsButton,
               pressed && { backgroundColor: '#1B263B' },
             ]}
-          onPress={() => alert('Invite a user.')}
+          onPress={onStats}
           >
           {({ pressed }) => (
             <>
@@ -146,7 +176,7 @@ export default function AboutScreen() {
               styles.statsButton,
               pressed && { backgroundColor: '#1B263B' },
             ]}
-          onPress={() => alert('Invite a user.')}
+          onPress={onHistory}
           >
           {({ pressed }) => (
             <>
@@ -164,7 +194,7 @@ export default function AboutScreen() {
               styles.statsButton,
               pressed && { backgroundColor: '#1B263B' },
             ]}
-          onPress={() => alert('Invite a user.')}
+          onPress={onActivity}
           >
           {({ pressed }) => (
             <>
@@ -179,6 +209,9 @@ export default function AboutScreen() {
           </Pressable>
       </View>
       <InviteModal isVisible={isInviteVisible} onClose={inviteClose}></InviteModal>
+      <GroupStats isVisible={isStatsVisible} onClose={statsClose}></GroupStats>
+      <GroupHistory isVisible={isHistoryVisible} onClose={historyClose}></GroupHistory>
+      <GroupActivity isVisible={isActivityVisible} onClose={activityClose}></GroupActivity>
     </ScrollView>
   );
 }

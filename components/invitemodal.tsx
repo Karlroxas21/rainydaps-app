@@ -9,10 +9,10 @@ import {
     StyleSheet,
     Text,
     TextInput,
-    View
+    View,
 } from "react-native";
 
-const { width: screenWidth } = Dimensions.get("window");
+const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
 type Props = PropsWithChildren<{
   isVisible: boolean;
@@ -31,15 +31,15 @@ export default function InviteModal({ isVisible, onClose }: Props) {
     <Modal animationType="fade" transparent={true} visible={isVisible}>
       {/* Overlay */}
       <Pressable style={styles.overlay} onPress={onClose}>
-        {/* Keyboard-aware wrapper */}
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
           {/* Modal content */}
           <Pressable style={styles.modalContent} onPress={() => {}}>
             <ScrollView
-              contentContainerStyle={{ paddingBottom: 20 }}
+              contentContainerStyle={styles.scrollContent}
               keyboardShouldPersistTaps="handled"
+              showsVerticalScrollIndicator={false}
             >
               <View style={styles.titleContainer}>
                 <Text style={styles.title}>Invite a member</Text>
@@ -78,28 +78,33 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.5)",
     justifyContent: "center",
     alignItems: "center",
+    padding: 10, // keeps spacing consistent on small screens
   },
   modalContent: {
-    width: screenWidth * 0.95, 
+    width: screenWidth * 0.9, // responsive width (90%)
+    maxWidth: 500, // keep nice size on tablets
+    maxHeight: screenHeight * 0.8, // prevent overflow
     backgroundColor: "#fff",
     borderRadius: 12,
     overflow: "hidden",
   },
+  scrollContent: {
+    paddingBottom: 20,
+  },
   titleContainer: {
-    height: 50,
     backgroundColor: "#fff",
     paddingHorizontal: 20,
-    paddingVertical: 20,
-    justifyContent: "center",
+    paddingVertical: 15,
+    justifyContent: "center"
   },
   title: {
-    color: "#000000",
-    fontSize: 20,
+    color: "#000",
+    fontSize: 18,
     fontWeight: "600",
   },
   body: {
     paddingHorizontal: 20,
-    paddingTop: 10,
+    paddingTop: 15,
     gap: 12,
   },
   input: {
@@ -109,22 +114,24 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     borderColor: "#333",
+    fontSize: 14,
   },
   actions: {
     flexDirection: "row",
     justifyContent: "flex-end",
     paddingHorizontal: 20,
-    paddingTop: 10,
+    paddingTop: 15,
     gap: 10,
   },
   submitBtn: {
-    paddingVertical: 8,
-    paddingHorizontal: 16,
+    paddingVertical: 10,
+    paddingHorizontal: 18,
     backgroundColor: "#1B263B",
     borderRadius: 6,
   },
   btnText: {
     color: "#fff",
     fontWeight: "500",
+    fontSize: 14,
   },
 });
