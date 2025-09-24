@@ -5,7 +5,10 @@ import React, { PropsWithChildren, useState } from "react";
 import {
   Image,
   Modal,
+  Platform,
   Pressable,
+  SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -26,7 +29,7 @@ const fundOptions = [
 const entryTypes = ["Deposit", "Withdraw"];
 
 export default function AddNewEntry({ isVisible, onClose }: Props) {
-  const { darkMode } = useTheme(); // ✅ dark mode
+  const { darkMode } = useTheme();
 
   const [selectedFund, setSelectedFund] = useState<string | null>(null);
   const [selectedEntryType, setSelectedEntryType] = useState<string | null>(null);
@@ -72,220 +75,170 @@ export default function AddNewEntry({ isVisible, onClose }: Props) {
   };
 
   return (
-    <View>
-      <Modal animationType="slide" transparent={true} visible={isVisible}>
-        <View
-          style={[
-            styles.modalContent,
-            { backgroundColor: darkMode ? "#0D1B2A" : "#fff" },
-          ]}
-        >
-          {/* Header */}
-          <View style={styles.titleContainer}>
-            <Text style={[styles.title, { color: darkMode ? "#fff" : "#000" }]}>
-              Add New Entry
-            </Text>
-            <Pressable onPress={onClose}>
-              <MaterialIcons
-                name="close"
-                color={darkMode ? "#fff" : "#000000"}
-                size={20}
-              />
-            </Pressable>
-          </View>
-
-          {/* Body */}
-          <View style={styles.addtoFund}>
-            <Text style={{ fontWeight: "bold", color: darkMode ? "#fff" : "#000" }}>
-              Add to Fund
-            </Text>
-
-            {/* Fund Options */}
-            <View style={styles.addtoFundgroup}>
-              {fundOptions.map((option) => (
-                <TouchableOpacity
-                  key={option.title}
-                  style={[
-                    styles.optionCard,
-                    {
-                      borderColor: darkMode ? "#444" : "#ccc",
-                      backgroundColor: darkMode ? "#1B263B" : "#fff",
-                    },
-                    selectedFund === option.title && {
-                      borderColor: "#396FDC",
-                      backgroundColor: darkMode ? "#274472" : "#f1f5f9",
-                    },
-                  ]}
-                  onPress={() => setSelectedFund(option.title)}
-                >
-                  <View style={styles.textContainer}>
-                    <Text style={[styles.optionTitle, { color: darkMode ? "#fff" : "#000" }]}>
-                      {option.title}
-                    </Text>
-                    <Text style={[styles.optionDesc, { color: darkMode ? "#ccc" : "#555" }]}>
-                      {option.description}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              ))}
+    <Modal animationType="slide" transparent={true} visible={isVisible}>
+      <View style={styles.modalOverlay}>
+        <SafeAreaView style={styles.modalContainer}>
+          <ScrollView
+            contentContainerStyle={{ paddingBottom: Platform.OS === "ios" ? 20 : 20 }}
+            showsVerticalScrollIndicator={false}
+          >
+            {/* Header */}
+            <View style={styles.titleContainer}>
+              <Text style={[styles.title, { color: darkMode ? "#000" : "#000" }]}>
+                Add New Entry
+              </Text>
+              <Pressable onPress={onClose}>
+                <MaterialIcons name="close" color="#000" size={24} />
+              </Pressable>
             </View>
 
-            {/* Entry Type */}
-            <View style={{ padding: 20 }}>
-              <View style={styles.entryType}>
-                {entryTypes.map((type) => (
-                  <TouchableOpacity
-                    key={type}
-                    style={styles.radioRow}
-                    onPress={() => setSelectedEntryType(type)}
-                  >
-                    {/* Radio button */}
-                    <View
-                      style={[
-                        styles.radioOuter,
-                        { borderColor: darkMode ? "#fff" : "#1b263b" },
-                      ]}
-                    >
-                      {selectedEntryType === type && (
-                        <View
-                          style={[
-                            styles.radioInner,
-                            { backgroundColor: darkMode ? "#4DA3FF" : "#1b263b" },
-                          ]}
-                        />
-                      )}
-                    </View>
+            {/* Body */}
+            <View style={styles.addtoFund}>
+              <Text style={{ fontWeight: "bold", color: "#000" }}>Add to Fund</Text>
 
-                    {/* Label */}
-                    <Text style={[styles.optionTitle, { color: darkMode ? "#fff" : "#000" }]}>
-                      {type}
-                    </Text>
+              {/* Fund Options */}
+              <View style={styles.addtoFundgroup}>
+                {fundOptions.map((option) => (
+                  <TouchableOpacity
+                    key={option.title}
+                    style={[
+                      styles.optionCard,
+                      {
+                        borderColor: "#ccc",
+                        backgroundColor: "#fff",
+                      },
+                      selectedFund === option.title && {
+                        borderColor: "#396FDC",
+                        backgroundColor: "#f1f5f9",
+                      },
+                    ]}
+                    onPress={() => setSelectedFund(option.title)}
+                  >
+                    <View style={styles.textContainer}>
+                      <Text style={[styles.optionTitle, { color: "#000" }]}>{option.title}</Text>
+                      <Text style={[styles.optionDesc, { color: "#555" }]}>{option.description}</Text>
+                    </View>
                   </TouchableOpacity>
                 ))}
               </View>
-            </View>
 
-            {/* Form */}
-            <View style={styles.form}>
-              <View style={styles.formGroup}>
-                <Text style={[styles.formText, { color: darkMode ? "#fff" : "#000" }]}>Amount</Text>
-                <TextInput
-                  style={[
-                    styles.input,
-                    {
-                      backgroundColor: darkMode ? "#274472" : "#fff",
-                      borderColor: darkMode ? "#444" : "#ccc",
-                      color: darkMode ? "#fff" : "#000",
-                    },
-                  ]}
-                  placeholder="Enter Amount"
-                  placeholderTextColor={darkMode ? "#aaa" : "#888"}
-                  keyboardType="numeric"
-                  value={amount}
-                  onChangeText={setAmount}
-                />
-              </View>
+              {/* Entry Type */}
+              <View style={{ padding: 20 }}>
+                <View style={styles.entryType}>
+                  {entryTypes.map((type) => (
+                    <TouchableOpacity
+                      key={type}
+                      style={styles.radioRow}
+                      onPress={() => setSelectedEntryType(type)}
+                    >
+                      <View
+                        style={[
+                          styles.radioOuter,
+                          { borderColor: "#1b263b" },
+                        ]}
+                      >
+                        {selectedEntryType === type && (
+                          <View style={[styles.radioInner, { backgroundColor: "#1b263b" }]} />
+                        )}
+                      </View>
 
-              <View style={styles.formGroup}>
-                <Text style={[styles.formText, { color: darkMode ? "#fff" : "#000" }]}>
-                  Description (optional)
-                </Text>
-                <TextInput
-                  style={[
-                    styles.input,
-                    {
-                      backgroundColor: darkMode ? "#274472" : "#fff",
-                      borderColor: darkMode ? "#444" : "#ccc",
-                      color: darkMode ? "#fff" : "#000",
-                    },
-                  ]}
-                  placeholder="Enter Description"
-                  placeholderTextColor={darkMode ? "#aaa" : "#888"}
-                  value={description}
-                  onChangeText={setDescription}
-                />
-              </View>
-
-              <View style={styles.formGroup}>
-                <Text style={[styles.formText, { color: darkMode ? "#fff" : "#000" }]}>
-                  Photo Evidence (optional)
-                </Text>
-
-                {photo && (
-                  <View style={styles.previewContainer}>
-                    <Image source={{ uri: photo }} style={styles.previewImage} />
-                    <TouchableOpacity style={styles.deleteBtn} onPress={() => setPhoto(null)}>
-                      <MaterialIcons name="close" size={20} color="#fff" />
+                      <Text style={[styles.optionTitle, { color: "#000" }]}>{type}</Text>
                     </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
+
+              {/* Form */}
+              <View style={styles.form}>
+                <View style={styles.formGroup}>
+                  <Text style={[styles.formText, { color: "#000" }]}>Amount</Text>
+                  <TextInput
+                    style={[styles.input, { backgroundColor: "#fff", borderColor: "#ccc", color: "#000" }]}
+                    placeholder="Enter Amount"
+                    placeholderTextColor="#888"
+                    keyboardType="numeric"
+                    value={amount}
+                    onChangeText={setAmount}
+                  />
+                </View>
+
+                <View style={styles.formGroup}>
+                  <Text style={[styles.formText, { color: "#000" }]}>Description (optional)</Text>
+                  <TextInput
+                    style={[styles.input, { backgroundColor: "#fff", borderColor: "#ccc", color: "#000" }]}
+                    placeholder="Enter Description"
+                    placeholderTextColor="#888"
+                    value={description}
+                    onChangeText={setDescription}
+                  />
+                </View>
+
+                <View style={styles.formGroup}>
+                  <Text style={[styles.formText, { color: "#000" }]}>Photo Evidence (optional)</Text>
+
+                  {photo && (
+                    <View style={styles.previewContainer}>
+                      <Image source={{ uri: photo }} style={styles.previewImage} />
+                      <TouchableOpacity style={styles.deleteBtn} onPress={() => setPhoto(null)}>
+                        <MaterialIcons name="close" size={20} color="#fff" />
+                      </TouchableOpacity>
+                    </View>
+                  )}
+
+                  <TouchableOpacity style={styles.uploadBtn} onPress={pickImage}>
+                    <View style={{ flexDirection: "row", alignItems: "center" }}>
+                      <MaterialIcons
+                        name="photo-camera"
+                        size={20}
+                        color="#777"
+                        style={{ marginRight: 6 }}
+                      />
+                      <Text style={{ color: "#777", fontWeight: "bold" }}>
+                        {photo ? "Replace Photo" : "Upload Photo"}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+
+                {selectedFund && (
+                  <View style={[styles.fundcontribution, { backgroundColor: "#ccc" }]}>
+                    <Text style={{ fontSize: 10, color: "#000" }}>Contributing to:</Text>
+                    <Text style={{ fontWeight: "bold", fontSize: 14, color: "#000" }}>
+                      {selectedFund}
+                    </Text>
                   </View>
                 )}
 
                 <TouchableOpacity
-                  style={[
-                    styles.uploadBtn,
-                    { borderColor: darkMode ? "#444" : "#ccc" },
-                  ]}
-                  onPress={pickImage}
+                  style={[styles.submitBtn, { backgroundColor: "#1b263b" }]}
+                  onPress={handleSubmit}
+                  disabled={!selectedFund}
                 >
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <MaterialIcons
-                      name="photo-camera"
-                      size={20}
-                      color={darkMode ? "#ccc" : "#777"}
-                      style={{ marginRight: 6 }}
-                    />
-                    <Text style={{ color: darkMode ? "#ccc" : "#777", fontWeight: "bold" }}>
-                      {photo ? "Replace Photo" : "Upload Photo"}
-                    </Text>
-                  </View>
+                  <Text style={styles.submitBtnText}>
+                    {selectedFund ? `Add to ${selectedFund}` : "Add to Fund"}
+                  </Text>
                 </TouchableOpacity>
               </View>
-
-              {selectedFund && (
-                <View
-                  style={[
-                    styles.fundcontribution,
-                    { backgroundColor: darkMode ? "#274472" : "#ccc" },
-                  ]}
-                >
-                  <Text style={{ fontSize: 10, color: darkMode ? "#fff" : "#000" }}>
-                    Contributing to:
-                  </Text>
-                  <Text style={{ fontWeight: "bold", fontSize: 14, color: darkMode ? "#fff" : "#000" }}>
-                    {selectedFund}
-                  </Text>
-                </View>
-              )}
-
-              <TouchableOpacity
-                style={[
-                  styles.submitBtn,
-                  { backgroundColor: darkMode ? "#396FDC" : "#1b263b" },
-                ]}
-                onPress={handleSubmit}
-                disabled={!selectedFund}
-              >
-                <Text style={styles.submitBtnText}>
-                  {selectedFund ? `Add to ${selectedFund}` : "Add to Fund"}
-                </Text>
-              </TouchableOpacity>
             </View>
-          </View>
-        </View>
-      </Modal>
-    </View>
+          </ScrollView>
+        </SafeAreaView>
+      </View>
+    </Modal>
   );
 }
 
-// Styles unchanged except dynamic colors added in JSX
 const styles = StyleSheet.create({
-  modalContent: {
-    width: "100%",
-    backgroundColor: "#fff",
-    borderTopRightRadius: 18,
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'flex-end',
+  },
+  modalContainer: {
+    backgroundColor: '#fff',
     borderTopLeftRadius: 18,
-    position: "absolute",
-    bottom: 0,
+    borderTopRightRadius: 18,
+    maxHeight: '80%',
+    paddingBottom: 20,
   },
   titleContainer: {
     paddingVertical: 15,
@@ -294,7 +247,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
-  title: {
+   title: {
     fontSize: 20,
     fontWeight: "bold",
   },
@@ -311,10 +264,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderWidth: 2,
     borderRadius: 8,
-  },
-  optionCardSelected: {
-    borderColor: "#1b263b",
-    backgroundColor: "#f1f5f9",
   },
   textContainer: {
     flexDirection: "column",
