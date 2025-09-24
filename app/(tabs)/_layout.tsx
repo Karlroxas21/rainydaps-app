@@ -1,94 +1,125 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { Tabs } from 'expo-router';
-import { Text, TouchableOpacity, View } from 'react-native';
+import AddNewEntry from "@/components/newentry";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import * as NavigationBar from "expo-navigation-bar";
+import { Tabs } from "expo-router";
+import React, { useEffect, useState } from "react";
+import { Text, TouchableOpacity, View } from "react-native";
+import { useTheme } from "../context/ThemeContext";
 
 export default function TabLayout() {
+  const [isModalVisible, setModalVisible] = useState(false);
+  const { darkMode } = useTheme();
+
+  useEffect(() => {
+    NavigationBar.setBackgroundColorAsync(darkMode ? "#1b263b" : "#f4f6f9");
+    NavigationBar.setButtonStyleAsync(darkMode ? "light" : "dark");
+  }, [darkMode]);
+
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: '#1b263b',
-        headerStyle: {
-          backgroundColor: '#f4f6f9',
-        },
-        headerShadowVisible: false,
-        tabBarStyle: {
-          backgroundColor: '#f4f6f9',
-        },
-        headerTitle: () => (
-          <View>
-            <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#1b263b' }}>
-              Emergency Fund
-            </Text>
-            <Text style={{ fontSize: 13, color: '#555' }}>
-              Build your safety net
-            </Text>
-          </View>
-        ),
-        headerRight: () => (
-          <TouchableOpacity>
-            <Ionicons
-              name="add-sharp"
-              size={28}
-              color="#1b263b"
-              style={{ marginRight: 15 }}
-            />
-          </TouchableOpacity>
-        ),
-      }}
-    >
-      <Tabs.Screen
-        name="dashboard"
-        options={{
-          tabBarShowLabel: false,
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons
-              name={focused ? 'home-sharp' : 'home-outline'}
-              color={color}
-              size={26}
-            />
+    <>
+      <Tabs
+        screenOptions={{
+          tabBarActiveTintColor: darkMode ? "#f4f6f9" : "#1b263b",
+          headerStyle: {
+            backgroundColor: darkMode ? "#1b263b" : "#f4f6f9",
+          },
+          headerShadowVisible: false,
+          tabBarStyle: {
+            backgroundColor: darkMode ? "#1b263b" : "#f4f6f9",
+          },
+          headerTitle: () => (
+            <View>
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontWeight: "bold",
+                  color: darkMode ? "#f4f6f9" : "#1b263b",
+                  textAlign: "center",
+                }}
+              >
+                RainyDays
+              </Text>
+              <Text
+                style={{
+                  fontSize: 13,
+                  color: darkMode ? "#ddd" : "#555",
+                  textAlign: "center",
+                }}
+              >
+                Build your safety net
+              </Text>
+            </View>
+          ),
+          headerRight: () => (
+            <TouchableOpacity onPress={() => setModalVisible(true)}>
+              <Ionicons
+                name="add-sharp"
+                size={28}
+                color={darkMode ? "#f4f6f9" : "#1b263b"}
+                style={{ marginRight: 15 }}
+              />
+            </TouchableOpacity>
           ),
         }}
+      >
+        <Tabs.Screen
+          name="dashboard"
+          options={{
+            tabBarShowLabel: false,
+            tabBarIcon: ({ color, focused }) => (
+              <Ionicons
+                name={focused ? "home-sharp" : "home-outline"}
+                color={color}
+                size={26}
+              />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="group"
+          options={{
+            tabBarShowLabel: false,
+            tabBarIcon: ({ color, focused }) => (
+              <Ionicons
+                name={focused ? "people-sharp" : "people-outline"}
+                color={color}
+                size={26}
+              />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="activity"
+          options={{
+            tabBarShowLabel: false,
+            tabBarIcon: ({ color, focused }) => (
+              <Ionicons
+                name={focused ? "bar-chart-sharp" : "bar-chart-outline"}
+                color={color}
+                size={26}
+              />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="account"
+          options={{
+            tabBarShowLabel: false,
+            tabBarIcon: ({ color, focused }) => (
+              <Ionicons
+                name={focused ? "person-sharp" : "person-outline"}
+                color={color}
+                size={26}
+              />
+            ),
+          }}
+        />
+      </Tabs>
+
+      <AddNewEntry
+        isVisible={isModalVisible}
+        onClose={() => setModalVisible(false)}
       />
-      <Tabs.Screen
-        name="group"
-        options={{
-          tabBarShowLabel: false,
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons
-              name={focused ? 'people-sharp' : 'people-outline'}
-              color={color}
-              size={26}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="activity"
-        options={{
-          tabBarShowLabel: false,
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons
-              name={focused ? 'bar-chart-sharp' : 'bar-chart-outline'}
-              color={color}
-              size={26}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="account"
-        options={{
-          tabBarShowLabel: false,
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons
-              name={focused ? 'person-sharp' : 'person-outline'}
-              color={color}
-              size={26}
-            />
-          ),
-        }}
-      />
-    </Tabs>
-    
+    </>
   );
 }

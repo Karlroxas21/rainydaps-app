@@ -1,15 +1,16 @@
+import { useTheme } from "@/app/context/ThemeContext";
 import { PropsWithChildren, useState } from "react";
 import {
-    Dimensions,
-    KeyboardAvoidingView,
-    Modal,
-    Platform,
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
+  Dimensions,
+  KeyboardAvoidingView,
+  Modal,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from "react-native";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
@@ -20,7 +21,16 @@ type Props = PropsWithChildren<{
 }>;
 
 export default function InviteModal({ isVisible, onClose }: Props) {
+  const { darkMode } = useTheme();
   const [name, setName] = useState("");
+
+  const colors = {
+    background: darkMode ? "#1c1c1c" : "#fff",
+    text: darkMode ? "#fff" : "#000",
+    placeholder: darkMode ? "#aaa" : "#aaa",
+    border: darkMode ? "#555" : "#333",
+    button: darkMode ? "#396FDC" : "#1B263B",
+  };
 
   const handleSubmit = () => {
     console.log("Submitted:", { name });
@@ -29,30 +39,28 @@ export default function InviteModal({ isVisible, onClose }: Props) {
 
   return (
     <Modal animationType="fade" transparent={true} visible={isVisible}>
-      {/* Overlay */}
       <Pressable style={styles.overlay} onPress={onClose}>
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
-          {/* Modal content */}
-          <Pressable style={styles.modalContent} onPress={() => {}}>
+          <Pressable style={[styles.modalContent, { backgroundColor: colors.background }]} onPress={() => {}}>
             <ScrollView
               contentContainerStyle={styles.scrollContent}
               keyboardShouldPersistTaps="handled"
               showsVerticalScrollIndicator={false}
             >
               <View style={styles.titleContainer}>
-                <Text style={styles.title}>Invite a member</Text>
+                <Text style={[styles.title, { color: colors.text }]}>Invite a member</Text>
               </View>
 
               <View style={styles.body}>
-                <Text style={{ fontWeight: "400", fontSize: 14 }}>
+                <Text style={{ fontWeight: "400", fontSize: 14, color: colors.text }}>
                   Enter username or email
                 </Text>
                 <TextInput
-                  style={styles.input}
+                  style={[styles.input, { backgroundColor: colors.background, color: colors.text, borderColor: colors.border }]}
                   placeholder="Enter username or email"
-                  placeholderTextColor="#aaa"
+                  placeholderTextColor={colors.placeholder}
                   value={name}
                   onChangeText={setName}
                   autoFocus
@@ -60,7 +68,7 @@ export default function InviteModal({ isVisible, onClose }: Props) {
               </View>
 
               <View style={styles.actions}>
-                <Pressable style={styles.submitBtn} onPress={handleSubmit}>
+                <Pressable style={[styles.submitBtn, { backgroundColor: colors.button }]} onPress={handleSubmit}>
                   <Text style={styles.btnText}>Submit</Text>
                 </Pressable>
               </View>
@@ -78,13 +86,12 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.5)",
     justifyContent: "center",
     alignItems: "center",
-    padding: 10, // keeps spacing consistent on small screens
+    padding: 10,
   },
   modalContent: {
-    width: screenWidth * 0.9, // responsive width (90%)
-    maxWidth: 500, // keep nice size on tablets
-    maxHeight: screenHeight * 0.8, // prevent overflow
-    backgroundColor: "#fff",
+    width: screenWidth * 0.9,
+    maxWidth: 500,
+    maxHeight: screenHeight * 0.8,
     borderRadius: 12,
     overflow: "hidden",
   },
@@ -92,13 +99,11 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   titleContainer: {
-    backgroundColor: "#fff",
     paddingHorizontal: 20,
     paddingVertical: 15,
-    justifyContent: "center"
+    justifyContent: "center",
   },
   title: {
-    color: "#000",
     fontSize: 18,
     fontWeight: "600",
   },
@@ -108,12 +113,9 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   input: {
-    backgroundColor: "#fff",
-    color: "#000",
     borderRadius: 8,
     padding: 10,
     borderWidth: 1,
-    borderColor: "#333",
     fontSize: 14,
   },
   actions: {
@@ -126,7 +128,6 @@ const styles = StyleSheet.create({
   submitBtn: {
     paddingVertical: 10,
     paddingHorizontal: 18,
-    backgroundColor: "#1B263B",
     borderRadius: 6,
   },
   btnText: {

@@ -4,6 +4,7 @@ import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-nativ
 export default function Login() {
   const router = useRouter();
 
+
   const handleLogin = () => {
     router.replace("/(tabs)/dashboard");
   }; 
@@ -11,7 +12,7 @@ export default function Login() {
   return (
     <View style={styles.container}>
 
-      <Text style={styles.title}>Emergency Fund</Text>
+      <Text style={styles.title}>RainyDays</Text>
       <Text style={styles.subtitle}>Build your financial safety net together</Text>
 
       <View style={styles.formContainer}>

@@ -7,8 +7,15 @@ import React, { useState } from 'react';
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import * as Progress from 'react-native-progress';
+import { useTheme } from '../context/ThemeContext'; // assume a ThemeContext
 
 export default function AboutScreen() {
+  const { darkMode } = useTheme();
+  const bgColor = darkMode ? '#121212' : '#e4e7ebff';
+  const textColor = darkMode ? '#fff' : '#000';
+  const secondaryBg = darkMode ? '#1c1c1c' : '#f4f6f9';
+  const accent = darkMode ? '#396FDC' : '#1B263B';
+
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
@@ -22,42 +29,9 @@ export default function AboutScreen() {
   const [isHistoryVisible, setHistoryVisible] = useState<boolean>(false);
   const [isActivityVisible, setActivityVisible] = useState<boolean>(false);
 
-  const onInvite = () => {
-    setInviteVisible(true);
-  }
-
-  const inviteClose = () => {
-    setInviteVisible(false);
-  }
-
-  const onStats = () => {
-    setStatsVisible(true);
-  }
-
-  const statsClose = () => {
-    setStatsVisible(false);
-  }
-
-  const onHistory = () => {
-    setHistoryVisible(true);
-  }
-
-  const historyClose = () => {
-    setHistoryVisible(false);
-  }
-
-  const onActivity = () => {
-    setActivityVisible(true);
-  }
-
-  const activityClose = () => {
-    setActivityVisible(false);
-  }
-
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      {/* First Section */}
-      <View style={[styles.firstContainer, { zIndex: 2000, elevation: 2000 }]}>
+    <ScrollView contentContainerStyle={[styles.container, { backgroundColor: bgColor }]}>
+      <View style={[styles.firstContainer, { backgroundColor: accent, zIndex: 2000, elevation: 2000 }]}>
         <View style={[styles.row, { zIndex: 2000, elevation: 2000 }]}>
           <View style={{ flex: 1, maxWidth: 180, zIndex: 2000, elevation: 2000 }}>
             <DropDownPicker
@@ -68,150 +42,117 @@ export default function AboutScreen() {
               setValue={setValue}
               setItems={setItems}
               placeholder="Select a group"
-              style={styles.dropdown}
-              dropDownContainerStyle={styles.dropdownContainer}
+              style={[
+                styles.dropdown,
+                { backgroundColor: secondaryBg, borderColor: darkMode ? '#555' : '#ccc' }
+              ]}
+              textStyle={{ color: textColor }}                 // ✅ dropdown button text color
+              dropDownContainerStyle={[
+                styles.dropdownContainer,
+                { backgroundColor: secondaryBg, borderColor: darkMode ? '#555' : '#ccc' }
+              ]}
+              labelStyle={{ color: textColor }}               // ✅ dropdown list text color
             />
           </View>
-          <View style={styles.membersBox}>
-            <Text style={styles.membersText}>5 members</Text>
+          <View style={[styles.membersBox, { backgroundColor: secondaryBg }]}>
+            <Text style={[styles.membersText, { color: textColor }]}>5 members</Text>
           </View>
         </View>
-        <Text style={{ color: '#7f8c8d', marginTop: 5 }}>
+        <Text style={{ color: darkMode ? '#ccc' : '#7f8c8d', marginTop: 5 }}>
           Building emergency funds together
         </Text>
       </View>
 
-      {/* Members Section */}
-      <View style={[styles.membersContainer, { zIndex: 1 }]}>
-        <Image 
-          source={{ uri: "https://via.placeholder.com/60" }}
-          style={{ width: 60, height: 60, borderRadius: 30 }}
-        />
-        <View style={styles.membersDetails}>
-          <Text style={{ fontWeight: 'bold', fontSize: 15 }}>You</Text>
-          <Text style={{ color: '#7f8c8d', fontSize: 11 }}>P10,000.00</Text>
-          <Progress.Bar
-            progress={0.6}
-            width={null}
-            style={styles.progressBar}
-            color="#000000"
-            borderRadius={5}
+      {[1,2,3].map((_, idx) => (
+        <View key={idx} style={[styles.membersContainer, { backgroundColor: secondaryBg }]}>
+          <Image 
+            source={{ uri: "https://via.placeholder.com/60" }}
+            style={{ width: 60, height: 60, borderRadius: 30 }}
           />
+          <View style={styles.membersDetails}>
+            <Text style={{ fontWeight: 'bold', fontSize: 15, color: textColor }}>You</Text>
+            <Text style={{ color: darkMode ? '#ccc' : '#7f8c8d', fontSize: 11 }}>P10,000.00</Text>
+            <Progress.Bar
+              progress={0.6}
+              width={null}
+              style={styles.progressBar}
+              color={accent}
+              borderRadius={5}
+            />
+          </View>
         </View>
-      </View>
-      <View style={[styles.membersContainer, { zIndex: 1 }]}>
-        <Image 
-          source={{ uri: "https://via.placeholder.com/60" }}
-          style={{ width: 60, height: 60, borderRadius: 30 }}
-        />
-        <View style={styles.membersDetails}>
-          <Text style={{ fontWeight: 'bold', fontSize: 15 }}>You</Text>
-          <Text style={{ color: '#7f8c8d', fontSize: 11 }}>P10,000.00</Text>
-          <Progress.Bar
-            progress={0.6}
-            width={null}
-            style={styles.progressBar}
-            color="#000000"
-            borderRadius={5}
-          />
-        </View>
-      </View>
-      <View style={[styles.membersContainer, { zIndex: 1 }]}>
-        <Image 
-          source={{ uri: "https://via.placeholder.com/60" }}
-          style={{ width: 60, height: 60, borderRadius: 30 }}
-        />
-        <View style={styles.membersDetails}>
-          <Text style={{ fontWeight: 'bold', fontSize: 15 }}>You</Text>
-          <Text style={{ color: '#7f8c8d', fontSize: 11 }}>P10,000.00</Text>
-          <Progress.Bar
-            progress={0.6}
-            width={null}
-            style={styles.progressBar}
-            color="#000000"
-            borderRadius={5}
-          />
-        </View>
-      </View>
-      {/*Stats*/}
+      ))}
+
       <View style={styles.statsContainer}>
-          <Pressable
-            style={({ pressed }) => [
-              styles.statsButton,
-              pressed && { backgroundColor: '#1B263B' },
-            ]}
-          onPress={onInvite}
-          >
+        <Pressable
+          style={({ pressed }) => [
+            styles.statsButton,
+            { backgroundColor: secondaryBg },
+            pressed && { backgroundColor: accent },
+          ]}
+          onPress={() => setInviteVisible(true)}
+        >
           {({ pressed }) => (
             <>
-            <Ionicons
-              name="person-add"
-              size={21}
-              style={{ padding: 5, color: pressed ? 'white' : 'black' }}
-            />
-          <Text style={{ color: pressed ? 'white' : 'black' }}>Invite</Text>
-          </>
+              <Ionicons name="person-add" size={21} style={{ padding: 5, color: pressed ? '#fff' : textColor }} />
+              <Text style={{ color: pressed ? '#fff' : textColor }}>Invite</Text>
+            </>
           )}
-          </Pressable>
-          <Pressable
-            style={({ pressed }) => [
-              styles.statsButton,
-              pressed && { backgroundColor: '#1B263B' },
-            ]}
-          onPress={onStats}
-          >
+        </Pressable>
+
+        <Pressable
+          style={({ pressed }) => [
+            styles.statsButton,
+            { backgroundColor: secondaryBg },
+            pressed && { backgroundColor: accent },
+          ]}
+          onPress={() => setStatsVisible(true)}
+        >
           {({ pressed }) => (
             <>
-            <Ionicons
-              name="stats-chart"
-              size={21}
-              style={{ padding: 5, color: pressed ? 'white' : 'black' }}
-            />
-          <Text style={{ color: pressed ? 'white' : 'black' }}>Stats</Text>
-          </>
+              <Ionicons name="stats-chart" size={21} style={{ padding: 5, color: pressed ? '#fff' : textColor }} />
+              <Text style={{ color: pressed ? '#fff' : textColor }}>Stats</Text>
+            </>
           )}
-          </Pressable>
-          <Pressable
-            style={({ pressed }) => [
-              styles.statsButton,
-              pressed && { backgroundColor: '#1B263B' },
-            ]}
-          onPress={onHistory}
-          >
+        </Pressable>
+
+        <Pressable
+          style={({ pressed }) => [
+            styles.statsButton,
+            { backgroundColor: secondaryBg },
+            pressed && { backgroundColor: accent },
+          ]}
+          onPress={() => setHistoryVisible(true)}
+        >
           {({ pressed }) => (
             <>
-            <Ionicons
-              name="refresh"
-              size={21}
-              style={{ padding: 5, color: pressed ? 'white' : 'black' }}
-            />
-          <Text style={{ color: pressed ? 'white' : 'black' }}>History</Text>
-          </>
+              <Ionicons name="refresh" size={21} style={{ padding: 5, color: pressed ? '#fff' : textColor }} />
+              <Text style={{ color: pressed ? '#fff' : textColor }}>History</Text>
+            </>
           )}
-          </Pressable>
-          <Pressable
-            style={({ pressed }) => [
-              styles.statsButton,
-              pressed && { backgroundColor: '#1B263B' },
-            ]}
-          onPress={onActivity}
-          >
+        </Pressable>
+
+        <Pressable
+          style={({ pressed }) => [
+            styles.statsButton,
+            { backgroundColor: secondaryBg },
+            pressed && { backgroundColor: accent },
+          ]}
+          onPress={() => setActivityVisible(true)}
+        >
           {({ pressed }) => (
             <>
-            <Ionicons
-              name="flame"
-              size={21}
-              style={{ padding: 5, color: pressed ? 'white' : 'black' }}
-            />
-          <Text style={{ color: pressed ? 'white' : 'black' }}>Activity</Text>
-          </>
+              <Ionicons name="flame" size={21} style={{ padding: 5, color: pressed ? '#fff' : textColor }} />
+              <Text style={{ color: pressed ? '#fff' : textColor }}>Activity</Text>
+            </>
           )}
-          </Pressable>
+        </Pressable>
       </View>
-      <InviteModal isVisible={isInviteVisible} onClose={inviteClose}></InviteModal>
-      <GroupStats isVisible={isStatsVisible} onClose={statsClose}></GroupStats>
-      <GroupHistory isVisible={isHistoryVisible} onClose={historyClose}></GroupHistory>
-      <GroupActivity isVisible={isActivityVisible} onClose={activityClose}></GroupActivity>
+
+      <InviteModal isVisible={isInviteVisible} onClose={() => setInviteVisible(false)} />
+      <GroupStats isVisible={isStatsVisible} onClose={() => setStatsVisible(false)} />
+      <GroupHistory isVisible={isHistoryVisible} onClose={() => setHistoryVisible(false)} />
+      <GroupActivity isVisible={isActivityVisible} onClose={() => setActivityVisible(false)} />
     </ScrollView>
   );
 }
@@ -219,17 +160,15 @@ export default function AboutScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#e4e7ebff',
     justifyContent: 'flex-start',
     alignItems: 'center',
     padding: 20,
   },
   firstContainer: {
-    backgroundColor: '#1B263B',
     borderRadius: 15,
     width: '100%',
     padding: 20,
-    marginBottom: 15, // 👈 space between sections
+    marginBottom: 15,
   },
   row: {
     flexDirection: 'row',
@@ -237,24 +176,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   dropdown: {
-    backgroundColor: '#f4f6f9',
-    borderColor: '#ccc',
     borderRadius: 15,
     paddingVertical: 5,
     paddingHorizontal: 10,
     minHeight: 36,
     justifyContent: 'center',
-    zIndex: 2000,   // 👈 ensures the picker button is above
-    elevation: 2000 // 👈 Android fix
   },
   dropdownContainer: {
-    borderColor: '#ccc',
     borderRadius: 15,
-    zIndex: 3000,     // 👈 dropdown list stays above all
-    elevation: 3000,  // 👈 Android fix
   },
   membersBox: {
-    backgroundColor: '#f4f6f9',
     borderRadius: 15,
     paddingVertical: 5,
     paddingHorizontal: 10,
@@ -265,39 +196,35 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   membersContainer: {
-    backgroundColor: '#f4f6f9',
     borderRadius: 15,
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 20,           // 👈 same padding as firstContainer
+    padding: 20,
     width: '100%',
     margin: 10,
   },
   membersDetails: {
     flex: 1,
-    marginLeft: 10,        // 👈 aligns text with firstContainer’s padding
+    marginLeft: 10,
   },
   progressBar: {
     alignSelf: 'stretch',
     marginVertical: 5,
-    backgroundColor: '#f4f6f9'
   },
   statsContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between', // space them evenly
+    justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: 20,
     width: '100%',
   },
-
   statsButton: {
-    flex: 1,                       // 👈 each takes equal space
+    flex: 1,
     borderRadius: 10,
-    backgroundColor: '#fff',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 10,
-    marginHorizontal: 5,           // 👈 spacing between buttons
+    marginHorizontal: 5,
   },
 });
