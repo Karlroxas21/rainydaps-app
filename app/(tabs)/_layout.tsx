@@ -2,8 +2,9 @@ import AddNewEntry from "@/components/newentry";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import * as NavigationBar from "expo-navigation-bar";
 import { Tabs } from "expo-router";
+import { StatusBar } from "expo-status-bar"; // <-- Import StatusBar
 import React, { useEffect, useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Platform, Text, TouchableOpacity, View } from "react-native";
 import { useTheme } from "../context/ThemeContext";
 
 export default function TabLayout() {
@@ -11,12 +12,21 @@ export default function TabLayout() {
   const { darkMode } = useTheme();
 
   useEffect(() => {
-    NavigationBar.setBackgroundColorAsync(darkMode ? "#1b263b" : "#f4f6f9");
-    NavigationBar.setButtonStyleAsync(darkMode ? "light" : "dark");
+    // Android navigation bar
+    if (Platform.OS === "android") {
+      NavigationBar.setBackgroundColorAsync(darkMode ? "#1b263b" : "#f4f6f9");
+      NavigationBar.setButtonStyleAsync(darkMode ? "light" : "dark");
+    }
   }, [darkMode]);
 
   return (
     <>
+      {/* status bar for iOS & Android */}
+      <StatusBar
+        style={darkMode ? "light" : "dark"}
+        translucent={false}
+      />
+
       <Tabs
         screenOptions={{
           tabBarActiveTintColor: darkMode ? "#f4f6f9" : "#1b263b",
