@@ -17,10 +17,25 @@ const { width } = Dimensions.get("window");
 
 export default function ProfileDetails() {
   const router = useRouter();
-  const { darkMode } = useTheme(); // ✅ get dark mode
+  const { darkMode } = useTheme();
   const [imageUri, setImageUri] = useState(
     "https://cdn-icons-png.flaticon.com/512/5231/5231019.png"
   );
+
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  // Validation
+  const validatePassword = (pwd: string) => {
+    const regex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+    return regex.test(pwd);
+  };
+
+  const isPasswordValid = validatePassword(password);
+  const doPasswordsMatch = password === confirmPassword && password.length > 0;
 
   // open image picker
   const pickImage = async () => {
@@ -43,6 +58,8 @@ export default function ProfileDetails() {
     border: darkMode ? "#444" : "#ccc",
     text: darkMode ? "#fff" : "#000",
     placeholder: darkMode ? "#aaa" : "#888",
+    error: "#EF4444",
+    success: "#28a745",
   };
 
   return (
@@ -56,7 +73,7 @@ export default function ProfileDetails() {
           </TouchableOpacity>
         </View>
 
-        {/* Form Fields */}
+        {/* Full Name */}
         <View style={styles.formGroup}>
           <Text style={[styles.formText, { color: theme.text }]}>
             Full Name
@@ -71,6 +88,7 @@ export default function ProfileDetails() {
           />
         </View>
 
+        {/* Username */}
         <View style={styles.formGroup}>
           <Text style={[styles.formText, { color: theme.text }]}>Username</Text>
           <TextInput
@@ -83,32 +101,80 @@ export default function ProfileDetails() {
           />
         </View>
 
+        {/* Password */}
         <View style={styles.formGroup}>
           <Text style={[styles.formText, { color: theme.text }]}>Password</Text>
-          <TextInput
-            style={[
-              styles.input,
-              { backgroundColor: theme.card, borderColor: theme.border, color: theme.text },
-            ]}
-            placeholder="Password"
-            placeholderTextColor={theme.placeholder}
-            secureTextEntry
-          />
+          <View style={styles.passwordWrapper}>
+            <TextInput
+              style={[
+                styles.input,
+                {
+                  flex: 1,
+                  backgroundColor: theme.card,
+                  borderColor: isPasswordValid ? theme.success : theme.error,
+                  color: theme.text,
+                },
+              ]}
+              placeholder="Password"
+              placeholderTextColor={theme.placeholder}
+              secureTextEntry={!showPassword}
+              value={password}
+              onChangeText={setPassword}
+            />
+            <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+              <Ionicons
+                name={showPassword ? "eye-off" : "eye"}
+                size={20}
+                color={theme.text}
+                style={styles.eyeIcon}
+              />
+            </TouchableOpacity>
+          </View>
+          {!isPasswordValid && password.length > 0 && (
+            <Text style={[styles.errorText, { color: theme.error }]}>
+              Must be 8+ chars, include upper, lower, number, and special char
+            </Text>
+          )}
         </View>
 
+        {/* Confirm Password */}
         <View style={styles.formGroup}>
           <Text style={[styles.formText, { color: theme.text }]}>
             Confirm Password
           </Text>
-          <TextInput
-            style={[
-              styles.input,
-              { backgroundColor: theme.card, borderColor: theme.border, color: theme.text },
-            ]}
-            placeholder="Confirm Password"
-            placeholderTextColor={theme.placeholder}
-            secureTextEntry
-          />
+          <View style={styles.passwordWrapper}>
+            <TextInput
+              style={[
+                styles.input,
+                {
+                  flex: 1,
+                  backgroundColor: theme.card,
+                  borderColor: doPasswordsMatch ? theme.success : theme.error,
+                  color: theme.text,
+                },
+              ]}
+              placeholder="Confirm Password"
+              placeholderTextColor={theme.placeholder}
+              secureTextEntry={!showConfirmPassword}
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+            />
+            <TouchableOpacity
+              onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+            >
+              <Ionicons
+                name={showConfirmPassword ? "eye-off" : "eye"}
+                size={20}
+                color={theme.text}
+                style={styles.eyeIcon}
+              />
+            </TouchableOpacity>
+          </View>
+          {!doPasswordsMatch && confirmPassword.length > 0 && (
+            <Text style={[styles.errorText, { color: theme.error }]}>
+              Passwords do not match
+            </Text>
+          )}
         </View>
 
         {/* Buttons */}
@@ -116,7 +182,13 @@ export default function ProfileDetails() {
           <TouchableOpacity>
             <Text style={[styles.discardBtn, { color: theme.text }]}>Discard</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.saveBtn}>
+          <TouchableOpacity
+            style={[
+              styles.saveBtn,
+              { opacity: isPasswordValid && doPasswordsMatch ? 1 : 0.5 },
+            ]}
+            disabled={!isPasswordValid || !doPasswordsMatch}
+          >
             <Text style={styles.saveText}>Save</Text>
           </TouchableOpacity>
         </View>
@@ -162,6 +234,18 @@ const styles = StyleSheet.create({
     fontSize: 14,
     padding: 10,
   },
+  passwordWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  eyeIcon: {
+    marginLeft: -35,
+    padding: 10,
+  },
+  errorText: {
+    fontSize: 12,
+    marginTop: 4,
+  },
   imageWrapper: {
     justifyContent: "center",
     alignItems: "center",
@@ -176,10 +260,10 @@ const styles = StyleSheet.create({
   cameraButton: {
     position: "absolute",
     bottom: 0,
-    right: width * 0.36, 
+    right: width * 0.36,
     borderRadius: 20,
     padding: 4,
-    backgroundColor: '#ccc'
+    backgroundColor: "#ccc",
   },
   btnContainer: {
     flexDirection: "row",
