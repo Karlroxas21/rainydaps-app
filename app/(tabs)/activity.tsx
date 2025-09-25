@@ -11,11 +11,11 @@ export default function Index() {
 
   // Dynamic colors depending on dark mode
   const colors = {
-    background: darkMode ? "#1b263b" : "#e4e7ebff",
+    background: darkMode ? "#0D1B2A" : "#e4e7ebff",
     card: darkMode ? "#2c3e50" : "#fff",
-    text: darkMode ? "#f4f6f9" : "#1b263b",
+    text: darkMode ? "#fff" : "#000",
     subtext: darkMode ? "#bdc3c7" : "#7f8c8d",
-    progressBg: darkMode ? "#34495e" : "#f4f6f9",
+    progressBg: darkMode ? "#396FDC" : "#1B263B",
   };
 
   return (

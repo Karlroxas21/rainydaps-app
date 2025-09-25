@@ -11,7 +11,7 @@ import { useTheme } from '../context/ThemeContext'; // assume a ThemeContext
 
 export default function AboutScreen() {
   const { darkMode } = useTheme();
-  const bgColor = darkMode ? '#121212' : '#e4e7ebff';
+  const bgColor = darkMode ? '#0D1B2A' : '#e4e7ebff';
   const textColor = darkMode ? '#fff' : '#000';
   const secondaryBg = darkMode ? '#1c1c1c' : '#f4f6f9';
   const accent = darkMode ? '#396FDC' : '#1B263B';

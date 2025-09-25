@@ -145,7 +145,7 @@ export default function Dashboard() {
               key={i}
               style={[
                 styles.entriesCard,
-                { backgroundColor: darkMode ? "#0D1B2A" : "#f8f9fa" },
+                { backgroundColor: darkMode ? "#1B263B" : "#f8f9fa" },
               ]}
             >
               <Ionicons
