@@ -37,6 +37,7 @@ export default function TabLayout() {
           tabBarStyle: {
             backgroundColor: darkMode ? "#1b263b" : "#f4f6f9",
           },
+          
           headerTitle: () => (
             <View>
               <Text

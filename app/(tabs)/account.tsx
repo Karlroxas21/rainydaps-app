@@ -12,15 +12,15 @@ export default function Index() {
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
 
   const profileDetails = () => {
-    router.replace("/profile-details");
+    router.push("/profile-details");
   }
 
   const history = () => {
-    router.replace("/history");
+    router.push("/history");
   }
 
   const groups = () => {
-    router.replace("/groups")
+    router.push("/groups")
   }
 
   const login = () => {
