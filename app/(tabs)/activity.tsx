@@ -15,7 +15,7 @@ export default function Index() {
     card: darkMode ? "#2c3e50" : "#fff",
     text: darkMode ? "#fff" : "#000",
     subtext: darkMode ? "#bdc3c7" : "#7f8c8d",
-    progressBg: darkMode ? "#396FDC" : "#1B263B",
+    progressBg: darkMode ? "#fff" : "#1B263B",
   };
 
   return (

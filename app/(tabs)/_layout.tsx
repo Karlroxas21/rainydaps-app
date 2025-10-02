@@ -14,7 +14,7 @@ export default function TabLayout() {
   useEffect(() => {
     // Android navigation bar
     if (Platform.OS === "android") {
-      NavigationBar.setBackgroundColorAsync(darkMode ? "#1b263b" : "#f4f6f9");
+      NavigationBar.setBackgroundColorAsync(darkMode ? "#0D1B2A" : "#f4f6f9");
       NavigationBar.setButtonStyleAsync(darkMode ? "light" : "dark");
     }
   }, [darkMode]);
@@ -31,11 +31,11 @@ export default function TabLayout() {
         screenOptions={{
           tabBarActiveTintColor: darkMode ? "#f4f6f9" : "#1b263b",
           headerStyle: {
-            backgroundColor: darkMode ? "#1b263b" : "#f4f6f9",
+            backgroundColor: darkMode ? "#0D1B2A" : "#f4f6f9",
           },
           headerShadowVisible: false,
           tabBarStyle: {
-            backgroundColor: darkMode ? "#1b263b" : "#f4f6f9",
+            backgroundColor: darkMode ? "#0D1B2A" : "#f4f6f9",
           },
           
           headerTitle: () => (

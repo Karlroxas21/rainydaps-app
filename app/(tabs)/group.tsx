@@ -14,7 +14,7 @@ export default function AboutScreen() {
   const bgColor = darkMode ? '#0D1B2A' : '#e4e7ebff';
   const textColor = darkMode ? '#fff' : '#000';
   const secondaryBg = darkMode ? '#1c1c1c' : '#f4f6f9';
-  const accent = darkMode ? '#396FDC' : '#1B263B';
+  const accent = darkMode ? '#fff' : '#1B263B';
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
@@ -44,12 +44,12 @@ export default function AboutScreen() {
               placeholder="Select a group"
               style={[
                 styles.dropdown,
-                { backgroundColor: secondaryBg, borderColor: darkMode ? '#555' : '#ccc' }
+                { backgroundColor: secondaryBg, borderColor: darkMode ? '#ccc' : '#ccc' }
               ]}
               textStyle={{ color: textColor }}                 // ✅ dropdown button text color
               dropDownContainerStyle={[
                 styles.dropdownContainer,
-                { backgroundColor: secondaryBg, borderColor: darkMode ? '#555' : '#ccc' }
+                { backgroundColor: secondaryBg, borderColor: darkMode ? '#ccc' : '#ccc' }
               ]}
               labelStyle={{ color: textColor }}               // ✅ dropdown list text color
             />

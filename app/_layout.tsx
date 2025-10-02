@@ -24,14 +24,14 @@ function LayoutWithTheme() {
     <>
       <StatusBar
         style={darkMode ? "light" : "dark"}
-        backgroundColor={darkMode ? "#1b263b" : "#ffffff"}
+        backgroundColor={darkMode ? "#0D1B2A" : "#ffffff"}
         translucent={false}
       />
 
       <Stack
         screenOptions={{
           headerStyle: {
-            backgroundColor: darkMode ? "#1b263b" : "#ffffff",
+            backgroundColor: darkMode ? "#0D1B2A" : "#ffffff",
           },
           headerTintColor: darkMode ? "#ffffff" : "#000000",
           headerBackTitle: "Account",

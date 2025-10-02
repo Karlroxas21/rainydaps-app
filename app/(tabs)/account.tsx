@@ -29,7 +29,7 @@ export default function Index() {
 
   // Dynamic theme based on dark mode from context
   const themeStyles = {
-    background: darkMode ? "#1b263b" : "#e4e7ebff",
+    background: darkMode ? "#0D1B2A" : "#e4e7ebff",
     card: darkMode ? "#2e3a59" : "#fff",
     text: darkMode ? "#fff" : "#000"
   };
