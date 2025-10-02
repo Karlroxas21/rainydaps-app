@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     elevation: 8,
     width: "100%",
-    minHeight: 160,
+    maxHeight: 160,
   },
   summaryContainer: {
     borderRadius: 12,
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
   },
   statsContainer: {
     width: "100%",
-    marginTop: 5,
+    marginTop: 10,
   },
   statsRowContainer: {
     flexDirection: "row",

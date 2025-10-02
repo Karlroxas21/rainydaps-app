@@ -78,7 +78,7 @@ export default function Index() {
               value={notificationsEnabled}
               onValueChange={setNotificationsEnabled}
               trackColor={{ false: "#ccc", true: "#1b263b" }}
-              thumbColor={notificationsEnabled ? "#fff" : "#f4f3f4"}
+              thumbColor={notificationsEnabled ? "#fff" : "#1b263b"}
               style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
             />
           </View>
@@ -89,7 +89,7 @@ export default function Index() {
               value={darkMode}                 
               onValueChange={toggleDarkMode}   
               trackColor={{ false: "#ccc", true: "#1b263b" }}
-              thumbColor={darkMode ? "#fff" : "#f4f3f4"}
+              thumbColor={darkMode ? "#fff" : "#1b263b"}
               style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }]}}
             />
           </View>
